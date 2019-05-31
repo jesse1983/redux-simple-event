@@ -1,0 +1,19 @@
+{
+  "name": "@kenlo/redux-simple-event",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "url": "https://gitlab.com/kenlo-project/libs/nodejs/redux-simple-event.git"
+  },
+  "scripts": {
+    "test": "jest --verbose --coverage",
+    "test:watch": "jest --verbose --watchAll"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "redux": "^4.0.1"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
+  }
+}
