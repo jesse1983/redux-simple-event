@@ -42,7 +42,16 @@ class Emitter extends EventEmitter {
   }
 
   setState(key, value) {
-    this.store.dispatch({ type: key, value });
+    // setState({ foo });
+    if(value === undefined && typeof key === 'object') {
+      const obj = key;
+      Object.keys(obj).forEach((k) => {
+        this.setState(k, obj[k]);
+      })
+    // setState('foo', 'bar');
+    } else {
+      this.store.dispatch({ type: key, value });
+    }
   }
 }
 

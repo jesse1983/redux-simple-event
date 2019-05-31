@@ -16,8 +16,11 @@ describe('Emitter check state', () => {
     emitter.setState('foo', 'foo');
     expect(emitter.getState().foo).toBe('foo');
 
-    emitter.setState('foo', 'bar');
+    const foo = 'bar';
+    const now = new Date();
+    emitter.setState({ foo, now });
     expect(emitter.getState().foo).toBe('bar');
+    expect(emitter.getState().now).toBe(now);
   });
 
   it('expect member.firstName to be Carl', () => {
