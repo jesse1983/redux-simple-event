@@ -1,7 +1,8 @@
 {
   "name": "redux-simple-event",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "./src/index.js",
+  "description": "",
   "repository": {
     "url": "https://github.com/jesse1983/redux-simple-event"
   },

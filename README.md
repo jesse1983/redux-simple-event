@@ -1,6 +1,6 @@
 # redux-simple-event
 
-- `npm i @kenlo/redux-simple-event`
+- `npm i redux-simple-event`
 
 ```javascript
 // controller.js
