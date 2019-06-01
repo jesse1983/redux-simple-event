@@ -1,6 +1,6 @@
 {
   "name": "redux-simple-event",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "./src/index.js",
   "description": "A redux implementation using Event Emitter",
   "repository": {

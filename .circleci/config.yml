@@ -5,6 +5,8 @@ jobs:
     filters:
       tags:
         only: /.*/
+      branches:
+        ignore: /.*/
     docker:
       - image: circleci/node:10
 
