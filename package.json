@@ -2,7 +2,7 @@
   "name": "redux-simple-event",
   "version": "1.0.3",
   "main": "./src/index.js",
-  "description": "",
+  "description": "A redux implementation using Event Emitter",
   "repository": {
     "url": "https://github.com/jesse1983/redux-simple-event"
   },
