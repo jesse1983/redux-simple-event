@@ -1,9 +1,13 @@
 {
-  "name": "@kenlo/redux-simple-event",
+  "name": "redux-simple-event",
   "version": "1.0.2",
   "main": "./src/index.js",
   "repository": {
-    "url": "https://gitlab.com/kenlo-project/libs/nodejs/redux-simple-event.git"
+    "url": "https://github.com/jesse1983/redux-simple-event"
+  },
+  "author": {
+    "name": "Jessé Pinheiro",
+    "url": "https://github.com/jesse1983"
   },
   "scripts": {
     "test": "jest --verbose --coverage",
