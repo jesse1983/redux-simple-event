@@ -9,6 +9,13 @@ const state = {
   },
 };
 
+const address = {
+  street: {
+    name: 'Rue De La Gauchatiere',
+    number: 10,
+  },
+};
+
 describe('Emitter check state', () => {
   beforeEach(() => { emitter = new Emitter(state); });
 
@@ -19,8 +26,11 @@ describe('Emitter check state', () => {
     const foo = 'bar';
     const now = new Date();
     emitter.setState({ foo, now });
+    emitter.setState({ address });
+    address.street.number = 30;
     expect(emitter.getState().foo).toBe('bar');
     expect(emitter.getState().now).toBe(now);
+    expect(emitter.getState().address.street.number).toBe(10);
   });
 
   it('expect member.firstName to be Carl', () => {
@@ -31,6 +41,19 @@ describe('Emitter check state', () => {
   it('expect member.age to be 10', () => {
     emitter.setState('member.age', 10);
     expect(emitter.getState().member.age).toBe(10);
+  });
+
+  it('expect has active and status', () => {
+    const active = true;
+    const status = 'PENDING';
+    emitter.setState({ active, status });
+    expect(emitter.getState().active).toBe(active);
+    expect(emitter.getState().status).toBe(status);
+  });
+
+  it('expect remove status', () => {
+    emitter.removeState('status');
+    expect(emitter.getState().status).toBeUndefined();
   });
 });
 

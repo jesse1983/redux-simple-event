@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const redux = require('redux');
 const { set, get, unset } = require('lodash');
+const { cloneDeep } = require('lodash');
 const { EventEmitter } = require('events');
 
 /* istanbul ignore next */
@@ -30,7 +31,9 @@ class Emitter extends EventEmitter {
     if (action.value === undefined || action.value === null) {
       unset(state, action.type);
     } else {
-      set(state, action.type, action.value);
+      const isObj = obj => obj != null && obj.constructor.name === "Object";
+      const value = isObj(action.value) ? cloneDeep(action.value) : action.value;
+      set(state, action.type, value);
     }
     this._lastType = action.type;
     return state;
@@ -52,6 +55,10 @@ class Emitter extends EventEmitter {
     } else {
       this.store.dispatch({ type: key, value });
     }
+  }
+
+  removeState(key) {
+    return this.setState(key, null);
   }
 }
 
