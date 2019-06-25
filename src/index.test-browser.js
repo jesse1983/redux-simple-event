@@ -105,3 +105,5 @@ describe('Emitter check opts', () => {
     expect(emitter.getState().any).toBeUndefined();
   });
 });
+
+

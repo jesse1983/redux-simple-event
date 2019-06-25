@@ -5,22 +5,26 @@ const { cloneDeep } = require('lodash');
 const { EventEmitter } = require('events');
 
 /* istanbul ignore next */
-const webTools = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
 class Emitter extends EventEmitter {
-  constructor(obj = {}, opts = { locked: false }) {
+  constructor(obj = {}, opts = { locked: false, browser: true }) {
     super();
+    this._browser = opts.browser;
     this._locked = opts.locked;
     this._state = obj;
-    this._lastType = undefined;
-    const reduce = this._reducer.bind(this);
-    const store = redux.createStore(reduce, webTools);
-    store.subscribe(() => {
-      const state = store.getState();
-      this.emit('change', state);
-      this.emit(`change-${this._lastType.replace(/\./g, '-')}`, get(state, this._lastType));
-    });
-    this.store = store;
+    if (this._browser) {
+      const webTools = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+      this._lastType = undefined;
+      const reduce = this._reducer.bind(this);
+      const store = redux.createStore(reduce, webTools);
+      store.subscribe(() => {
+        const state = store.getState();
+        this.emit('change', state);
+        this.emit(`change-${this._lastType.replace(/\./g, '-')}`, get(state, this._lastType));
+ 
+      });
+      this.store = store;
+    }
   }
 
   _reducer(state, action) {
@@ -41,7 +45,8 @@ class Emitter extends EventEmitter {
 
 
   getState() {
-    return this.store.getState();
+    if (this._browser) return this.store.getState();
+    return this._state;
   }
 
   setState(key, value) {
@@ -53,7 +58,8 @@ class Emitter extends EventEmitter {
       })
     // setState('foo', 'bar');
     } else {
-      this.store.dispatch({ type: key, value });
+      if (this._browser) this.store.dispatch({ type: key, value });
+      else if (!this._browser && !this._locked) set(this._state, key, value)
     }
   }
 

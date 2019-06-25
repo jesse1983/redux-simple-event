@@ -44,3 +44,10 @@ class {
   }
 }
 ```
+
+Server side:
+
+```javascript
+module.exports = new ControllerEvent({ foo: 'bar' }, { browser: false });
+
+```
