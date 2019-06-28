@@ -17,15 +17,15 @@ describe('Emitter check opts', () => {
     expect(emitter.getState().member.lastName).toBe('Andreas');
   });
 
-  it('expect member.lastName to be equal Andreas', () => {
+  it('expect heroes.spiderman.weapon to be web', () => {
     emitter.setState({ heroes: {
-      spiderman: { 
-        weapon: 'web' 
+      spiderman: {
+        weapon: 'web'
       },
       batman: false,
     } });
     expect(emitter.getState().heroes.spiderman.weapon).toBe('web');
-  });  
+  });
 });
 
 

@@ -106,4 +106,19 @@ describe('Emitter check opts', () => {
   });
 });
 
+describe('reset', () => {
+  let subsReset;
+  beforeEach(() => {
+    emitter = new Emitter(state);
+    emitter.addListener('reset', (state) => { subsReset = state; });
+  });
+
+  it('expect reset current state', () => {
+    emitter.reset({ reset: 'success' })
+    expect(emitter.getState().foo).toBeUndefined();
+    expect(emitter.getState().reset).toBe('success');
+    expect(subsReset).toHaveProperty('reset');
+  });
+});
+
 

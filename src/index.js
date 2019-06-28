@@ -21,13 +21,18 @@ class Emitter extends EventEmitter {
         const state = store.getState();
         this.emit('change', state);
         this.emit(`change-${this._lastType.replace(/\./g, '-')}`, get(state, this._lastType));
- 
+        if (this._lastType.indexOf('@@redux/INIT') > -1) this.emit('reset', state);
       });
       this.store = store;
     }
   }
 
   _reducer(state, action) {
+    // reset
+    if (action.type === '__RESET__') {
+      this._state = action.value;
+      return action.value;
+    }
     // If is locked for new attributes
     if (state && this._locked && get(state, action.type) === undefined) return state;
     // eslint-disable-next-line no-param-reassign
@@ -43,6 +48,10 @@ class Emitter extends EventEmitter {
     return state;
   }
 
+  reset(value = {}) {
+    if (this._browser) this.store.dispatch({ type: '__RESET__', value });
+    else this._state = cloneDeep(value);
+  }
 
   getState() {
     if (this._browser) return this.store.getState();
@@ -50,13 +59,11 @@ class Emitter extends EventEmitter {
   }
 
   setState(key, value) {
-    // setState({ foo });
     if(value === undefined && typeof key === 'object') {
       const obj = key;
       Object.keys(obj).forEach((k) => {
         this.setState(k, obj[k]);
       })
-    // setState('foo', 'bar');
     } else {
       if (this._browser) this.store.dispatch({ type: key, value });
       else if (!this._browser && !this._locked) set(this._state, key, value)
