@@ -1,0 +1,7 @@
+{
+  "tags": {
+    "provider": {
+      "template": "./src/provider.marko"
+    }
+  }
+}

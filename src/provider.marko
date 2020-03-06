@@ -1,0 +1,34 @@
+import { ReduxSimpleEvent } from './index.ts';
+
+class {
+  onCreate(input) {
+    if (input.store) {
+      this.store = new ReduxSimpleEvent(input.store.getState());
+      const inputMethods = this.getAllFuncs(input.store);
+      const defaultMethods = this.getAllFuncs(this.store);
+      inputMethods
+        .filter(m => defaultMethods.indexOf(m) === -1)
+        .forEach(m => this.store[m] = input.store[m].bind(this.store));
+    } else {
+      const initial = Object.assign(input);
+      delete initial.renderBody;
+      this.store = new ReduxSimpleEvent(initial);
+    }
+  }
+
+  onDestroy() {
+    this.store = null;
+  }
+
+  getAllFuncs(obj) {
+    let methods = []
+    while (obj = Reflect.getPrototypeOf(obj)) {
+      let keys = Reflect.ownKeys(obj)
+      keys.forEach((k) => methods.push(k));
+    }
+    return methods;
+  }
+}
+
+div.provider
+  <${input.content.renderBody} store=component.store ...component.store.getState() />

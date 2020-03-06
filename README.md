@@ -3,15 +3,14 @@
 - `npm i redux-simple-event`
 
 ```javascript
-// controller.js
-const ReduxSimpleEvent = require('@kenlo/redux-simple-event');
+// store.js
+const { ReduxSimpleEvent } = require('redux-simple-event');
 
-class ControllerEvent extends ReduxSimpleEvent {
+class Store extends ReduxSimpleEvent {
   // methods
 }
 
-module.exports = new ControllerEvent({ foo: 'bar' });
-```
+module.exports = new
 
 ## Usage
 
@@ -19,35 +18,49 @@ Example:
 
 ```javascript
 // Setting a value on state
-ctrl.setState('member.name', 'John');
+store.setState('member.name', 'John');
 
 // Getting a state value
-ctrl.getState();
+store.getState();
 
 // General listener
-ctrl.addListener('change', func);
+store.addListener('change', func);
 
 // Or specific listener
-ctrl.addListener('change-member-name', func);
-```
-
-Marko example:
-
-```javascript
-const ctrl = require('./controller');
-
-class {
-  onMount() {
-    this.subscribeTo(ctrl).on('change', (state) => {
-      this.setState(state);
-    });
-  }
-}
+store.addListener('change-member-name', func);
 ```
 
 Server side:
 
 ```javascript
-module.exports = new ControllerEvent({ foo: 'bar' }, { browser: false });
+module.exports = new ReduxSimpleEvent({ foo: 'bar' }, { browser: false });
 
+```
+
+## Marko Usage
+
+You can use `<provider />` component to encapsulate store.
+
+```javascript
+// my-store-instance.js
+
+module.exports = new ReduxSimpleEvent({ foo: 'bar' });
+```
+
+```javascript
+// index.marko
+
+$ const myStoreInstance = require('../my-store-instance');
+
+provider store=myStoreInstance
+  @content|{ store }|
+    inner-component ...store
+```
+
+```javascript
+// inner-component/index.marko
+
+div -- ${ input.store.getState().foo}
+// or
+div -- ${ input.foo }
 ```

@@ -1,4 +1,4 @@
-const Emitter = require('./index');
+const Emitter = require('./index.ts').ReduxSimpleEvent;
 
 let emitter = new Emitter();
 const state = {
@@ -118,6 +118,23 @@ describe('reset', () => {
     expect(emitter.getState().foo).toBeUndefined();
     expect(emitter.getState().reset).toBe('success');
     expect(subsReset).toHaveProperty('reset');
+  });
+});
+
+describe('parent attributes', () => {
+  let member;
+  beforeEach(() => {
+    emitter = new Emitter(state);
+    emitter.addListener('change-member', (state) => {
+      member = state;
+    });
+  });
+
+  it('expect reset current state', () => {
+    emitter.setState('ok', true);
+    emitter.setState('member.address', address);
+    expect(member.address.street.name).toBe('Rue De La Gauchatiere');
+    expect(emitter.getState().member.address.street.name).toBe('Rue De La Gauchatiere');
   });
 });
 

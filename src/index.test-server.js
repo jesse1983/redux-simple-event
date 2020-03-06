@@ -1,6 +1,5 @@
-const Emitter = require('./index');
+const { ReduxSimpleEvent } = require('./index');
 
-let emitter = new Emitter();
 const state = {
   foo: 'bar',
   member: {
@@ -8,13 +7,16 @@ const state = {
     lastName: 'Wick',
   },
 };
+let emitter = new ReduxSimpleEvent(state, { browser: false });
 
 describe('Emitter check opts', () => {
-  beforeEach(() => { emitter = new Emitter(state, { browser: false }); });
+  beforeEach(() => { emitter = new ReduxSimpleEvent(state, { browser: false }); });
 
   it('expect member.lastName to be equal Andreas', () => {
     emitter.setState('member.lastName', 'Andreas');
     expect(emitter.getState().member.lastName).toBe('Andreas');
+    emitter.reset();
+    expect(emitter.getState()).toStrictEqual({});
   });
 
   it('expect heroes.spiderman.weapon to be web', () => {
@@ -27,5 +29,6 @@ describe('Emitter check opts', () => {
     expect(emitter.getState().heroes.spiderman.weapon).toBe('web');
   });
 });
+
 
 

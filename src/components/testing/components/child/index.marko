@@ -1,0 +1,26 @@
+class {
+  onCreate(input) {
+    this.state = input.store.getState();
+  }
+  onMount() {
+    this.subscribeTo(this.input.store).on('change', (state) => {
+      this.state = state;
+      this.forceUpdate();
+    });
+  }
+  changeState() {
+    this.input.store.setState('foo', 'bar');
+  }
+  changeMovie() {
+    this.input.store.addMovie('Godfather');
+  }
+  removeMovie() {
+    this.input.store.removeMovie();
+  }
+}
+div.child
+  p -- Foo: ${ state.foo }
+  p -- Movie: ${ state.movie || 'no movie found' }
+  button on-click('changeState') -- Change
+  button on-click('changeMovie') -- Movie
+  button on-click('removeMovie') -- Remove
