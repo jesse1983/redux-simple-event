@@ -10,7 +10,8 @@ class Store extends ReduxSimpleEvent {
   // methods
 }
 
-module.exports = new
+module.exports = new Store()
+```
 
 ## Usage
 
